@@ -1,4 +1,4 @@
-import Todo from "./HOC/Todo";
+import Todo from "../Todo";
 
 const Todos = () => {
   return <div>Todos</div>;
