@@ -8,11 +8,20 @@ const App = () => {
     return storedTodos !== null ? JSON.parse(storedTodos) : [];
   });
 
+  const completeToggleHandler = (todoID) => {
+    let updatedTodos = [...todos];
+    let todoTargetIndex = updatedTodos.findIndex((item) => todoID === item.id);
+    updatedTodos[todoTargetIndex].completed =
+      !updatedTodos[todoTargetIndex].completed;
+    setTodos([...updatedTodos]);
+  };
+
   const createTodo = (e, text) => {
     e.preventDefault();
     const newTodo = {
       text,
       completed: false,
+      id: Math.floor(Math.random() * Date.now()),
     };
     setTodos((prevTodos) => {
       const updatedTodos = [...prevTodos, newTodo];
@@ -25,7 +34,11 @@ const App = () => {
   return (
     <main className="bg-[#FAFAFA] dark:bg-[#171823] h-screen w-full">
       <Header />
-      <Container create={createTodo} />
+      <Container
+        todos={todos}
+        complete={completeToggleHandler}
+        create={createTodo}
+      />
     </main>
   );
 };

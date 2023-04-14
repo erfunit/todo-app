@@ -6,7 +6,7 @@ const Heading = () => {
   const [darkMode, setDarkMode] = useState(false);
 
   return (
-    <div className="w-full mb-10 flex items-center flex-row justify-between">
+    <div className="w-full mb-10  flex items-center flex-row justify-between">
       <h1 className="text-4xl text-white font-bold">T O D O</h1>
       <img
         onClick={() => {
