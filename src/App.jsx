@@ -43,6 +43,7 @@ const App = () => {
         return storedTodos !== null ? JSON.parse(storedTodos) : [];
       });
     }
+    console.log(todos);
   };
 
   const clearCompletedHandler = () => {

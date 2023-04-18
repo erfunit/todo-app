@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import doneIcon from "../../assets/icons/done.svg";
-import Xicon from "../../assets/icons/Xicon.svg";
 
 const Todos = ({
   todos,
@@ -10,7 +9,17 @@ const Todos = ({
   changeFilter,
 }) => {
   const [itemsLeft, setItemsLeft] = useState(0);
+  const [JSONtodos, setJSONtodos] = useState(() => {
+    return JSON.parse(localStorage.getItem("todos")) !== null
+      ? JSON.parse(localStorage.getItem("todos"))
+      : [];
+  });
   useEffect(() => {
+    setJSONtodos(() => {
+      return JSON.parse(localStorage.getItem("todos")) !== null
+        ? JSON.parse(localStorage.getItem("todos"))
+        : [];
+    });
     let sum = 0;
     todos.forEach((todo) => {
       if (!todo.completed) {
@@ -19,6 +28,13 @@ const Todos = ({
       setItemsLeft(sum);
     });
   }, [todos]);
+
+  const handleFilterChange = useCallback(
+    (filter) => {
+      changeFilter(filter);
+    },
+    [changeFilter]
+  );
 
   return (
     <>
@@ -88,24 +104,24 @@ const Todos = ({
             </div>
           );
         })}
-        {JSON.parse(localStorage.getItem("todos")).length > 0 ? (
+        {JSONtodos.length > 0 ? (
           <div className="bg-white dark:bg-[#25273D] transition-all  flex flex-row justify-between p-5 text-sm font-semibold  text-[#9495A5]">
             <div>{itemsLeft} items left</div>
             <div className="sm:flex hidden gap-4">
               <button
-                onClick={() => changeFilter("All")}
+                onClick={() => handleFilterChange("All")}
                 className="active:text-black  transition-all"
               >
                 All
               </button>
               <button
-                onClick={() => changeFilter("Active")}
+                onClick={() => handleFilterChange("Active")}
                 className="active:text-black transition-all"
               >
                 Active
               </button>
               <button
-                onClick={() => changeFilter("Completed")}
+                onClick={() => handleFilterChange("Completed")}
                 className="active:text-black transition-all"
               >
                 Completed
@@ -122,23 +138,23 @@ const Todos = ({
           </div>
         ) : null}
       </div>
-      {JSON.parse(localStorage.getItem("todos")).length > 0 ? (
+      {JSONtodos.length > 0 ? (
         <div className="bg-white sm:hidden transition-all dark:bg-[#25273D] rounded-[5px] my-4 flex flex-row justify-center p-4 text-base font-semibold  text-[#9495A5]">
           <div className="flex gap-4">
             <button
-              onClick={() => changeFilter("All")}
+              onClick={() => handleFilterChange("All")}
               className="active:text-black  transition-all"
             >
               All
             </button>
             <button
-              onClick={() => changeFilter("Active")}
+              onClick={() => handleFilterChange("Active")}
               className="active:text-black transition-all"
             >
               Active
             </button>
             <button
-              onClick={() => changeFilter("Completed")}
+              onClick={() => handleFilterChange("Completed")}
               className="active:text-black transition-all"
             >
               Completed
