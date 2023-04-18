@@ -46,7 +46,8 @@ const Todos = ({
               layout
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.2 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.6 }}
               key={index}
               className={`flex bg-white overflow-hidden dark:bg-[#25273D] dark:text-[#C8CBE7] transition-all items-center  group flex-row p-5 justify-between ${
                 index !== todos.length - 1 ? "mb-[1px]" : "mb-[1px]"

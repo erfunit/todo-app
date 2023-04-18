@@ -33,6 +33,7 @@ const Input = ({ create }) => {
           className="w-full"
         >
           <input
+            autoComplete="false"
             onFocus={handleFocus}
             onBlur={handleBlur}
             ref={inputEl}
@@ -40,7 +41,7 @@ const Input = ({ create }) => {
             type="text"
             name="todoText"
             id="todoText"
-            className={`caret-[#3A7CFD] w-full bg-transparent dark:text-[#C8CBE7] transition-all outline-none text-[#393A4B] text-lg`}
+            className={`caret-[#3A7CFD] w-full  dark:text-[#C8CBE7]  bg-white/0 transition-all outline-none text-[#393A4B] text-lg`}
           />
           <button className="hidden"></button>
         </form>
