@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import doneIcon from "../../assets/icons/done.svg";
+import { motion } from "framer-motion";
 
 const Todos = ({
   todos,
@@ -38,12 +39,16 @@ const Todos = ({
 
   return (
     <>
-      <div className="w-full shadow-2xl shadow-black/25 overflow-hidden transition-all bg-slate-200 dark:bg-[#393A4B] rounded-[5px]">
+      <div className="w-full shadow-2xl shadow-black/25 overflow-hidden transition-all bg-gray-200 dark:bg-[#393A4B] rounded-[5px]">
         {todos.map((todo, index) => {
           return (
-            <div
+            <motion.div
+              layout
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.2 }}
               key={index}
-              className={`flex bg-white dark:bg-[#25273D] dark:text-[#C8CBE7] transition-all items-center  group flex-row p-5 justify-between ${
+              className={`flex bg-white overflow-hidden dark:bg-[#25273D] dark:text-[#C8CBE7] transition-all items-center  group flex-row p-5 justify-between ${
                 index !== todos.length - 1 ? "mb-[1px]" : "mb-[1px]"
               }`}
             >
@@ -101,7 +106,7 @@ const Todos = ({
                   </svg>
                 </button>
               </div>
-            </div>
+            </motion.div>
           );
         })}
         {JSONtodos.length > 0 ? (

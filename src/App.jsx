@@ -17,14 +17,6 @@ const App = () => {
     } else {
       document.documentElement.classList.remove("dark");
     }
-  }, [darkMode]);
-
-  const themeToggler = () => {
-    setDarkMode((prev) => !prev);
-  };
-
-  const changeFilterHandler = (x) => {
-    setFilter(x);
     if (filter === "Active") {
       let storedTodos = localStorage.getItem("todos");
       storedTodos = storedTodos !== null ? JSON.parse(storedTodos) : [];
@@ -43,7 +35,14 @@ const App = () => {
         return storedTodos !== null ? JSON.parse(storedTodos) : [];
       });
     }
-    console.log(todos);
+  }, [darkMode, filter]);
+
+  const themeToggler = () => {
+    setDarkMode((prev) => !prev);
+  };
+
+  const changeFilterHandler = (x) => {
+    setFilter(x);
   };
 
   const clearCompletedHandler = () => {
