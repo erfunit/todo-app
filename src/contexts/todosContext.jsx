@@ -1,12 +1,11 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useCallback } from "react";
 
 const todosContext = createContext();
 
 export const TodosProvider = ({ children }) => {
   const [todos, setTodos] = useState([]);
 
-  //create todo:
-  const createTodo = (e, text) => {
+  const createTodo = useCallback((e, text) => {
     e.preventDefault();
     if (text === "") {
       alert("please enter something");
@@ -23,50 +22,61 @@ export const TodosProvider = ({ children }) => {
       return updatedTodos;
     });
     e.target.elements.todoText.value = "";
-  };
+  }, []);
 
-  //delete one special task:
-  const deleteTaskHandler = (todoID) => {
-    let updatedTodos = [...todos];
-    let newupdatedTodos = updatedTodos.filter((item) => todoID !== item.id);
-    setTodos([...newupdatedTodos]);
-    localStorage.clear("todos");
-    localStorage.setItem("todos", JSON.stringify(newupdatedTodos));
-  };
+  const deleteTaskHandler = useCallback((todoID) => {
+    setTodos((prevTodos) => {
+      const updatedTodos = prevTodos.filter((todo) => todo.id !== todoID);
+      localStorage.setItem("todos", JSON.stringify(updatedTodos));
+      return updatedTodos;
+    });
+  }, []);
 
-  //task completed toggler function:
-  const completeToggleHandler = (todoID) => {
-    let updatedTodos = [...todos];
-    let todoTargetIndex = updatedTodos.findIndex((item) => todoID === item.id);
-    updatedTodos[todoTargetIndex].completed =
-      !updatedTodos[todoTargetIndex].completed;
-    setTodos([...updatedTodos]);
-    localStorage.clear("todos");
-    localStorage.setItem("todos", JSON.stringify(updatedTodos));
-  };
+  const completeToggleHandler = useCallback((todoID) => {
+    setTodos((prevTodos) => {
+      const updatedTodos = prevTodos.map((todo) => {
+        if (todo.id === todoID) {
+          return {
+            ...todo,
+            completed: !todo.completed,
+          };
+        }
+        return todo;
+      });
+      localStorage.setItem("todos", JSON.stringify(updatedTodos));
+      return updatedTodos;
+    });
+  }, []);
 
-  //clear completed tasks:
-  const clearCompletedHandler = () => {
-    let updatedTodos = [...todos];
-    let newupdatedTodos = updatedTodos.filter(
-      (item) => item.completed === false
-    );
-    setTodos([...newupdatedTodos]);
-    localStorage.clear("todos");
-    localStorage.setItem("todos", JSON.stringify(newupdatedTodos));
-  };
+  const clearCompletedHandler = useCallback(() => {
+    setTodos((prevTodos) => {
+      const updatedTodos = prevTodos.filter((todo) => !todo.completed);
+      localStorage.setItem("todos", JSON.stringify(updatedTodos));
+      return updatedTodos;
+    });
+  }, []);
+
+  const contextValue = useCallback(
+    [
+      todos,
+      setTodos,
+      createTodo,
+      deleteTaskHandler,
+      completeToggleHandler,
+      clearCompletedHandler,
+    ],
+    [
+      todos,
+      setTodos,
+      createTodo,
+      deleteTaskHandler,
+      completeToggleHandler,
+      clearCompletedHandler,
+    ]
+  );
 
   return (
-    <todosContext.Provider
-      value={[
-        todos,
-        setTodos,
-        createTodo,
-        deleteTaskHandler,
-        completeToggleHandler,
-        clearCompletedHandler,
-      ]}
-    >
+    <todosContext.Provider value={contextValue}>
       {children}
     </todosContext.Provider>
   );

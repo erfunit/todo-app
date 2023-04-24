@@ -44,6 +44,10 @@ const App = () => {
     setDarkMode((prev) => !prev);
   };
 
+  const changeFilterHandler = (x) => {
+    setFilter(x);
+  };
+
   return (
     <main className="bg-[#FAFAFA] transition-all duration-200 dark:bg-[#171823] h-screen w-full">
       <Header dark={darkMode} />
