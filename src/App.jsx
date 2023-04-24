@@ -44,67 +44,12 @@ const App = () => {
     setDarkMode((prev) => !prev);
   };
 
-  const changeFilterHandler = (x) => {
-    setFilter(x);
-  };
-
-  const clearCompletedHandler = () => {
-    let updatedTodos = [...todos];
-    let newupdatedTodos = updatedTodos.filter(
-      (item) => item.completed === false
-    );
-    setTodos([...newupdatedTodos]);
-    localStorage.clear("todos");
-    localStorage.setItem("todos", JSON.stringify(newupdatedTodos));
-  };
-
-  const deleteTaskHandler = (todoID) => {
-    let updatedTodos = [...todos];
-    let newupdatedTodos = updatedTodos.filter((item) => todoID !== item.id);
-    setTodos([...newupdatedTodos]);
-    localStorage.clear("todos");
-    localStorage.setItem("todos", JSON.stringify(newupdatedTodos));
-  };
-
-  const completeToggleHandler = (todoID) => {
-    let updatedTodos = [...todos];
-    let todoTargetIndex = updatedTodos.findIndex((item) => todoID === item.id);
-    updatedTodos[todoTargetIndex].completed =
-      !updatedTodos[todoTargetIndex].completed;
-    setTodos([...updatedTodos]);
-    localStorage.clear("todos");
-    localStorage.setItem("todos", JSON.stringify(updatedTodos));
-  };
-
-  const createTodo = (e, text) => {
-    if (text === "") {
-      alert("please enter something");
-      return;
-    }
-    e.preventDefault();
-    const newTodo = {
-      text,
-      completed: false,
-      id: Math.floor(Math.random() * Date.now()),
-    };
-    setTodos((prevTodos) => {
-      const updatedTodos = [...prevTodos, newTodo];
-      localStorage.setItem("todos", JSON.stringify(updatedTodos));
-      return updatedTodos;
-    });
-    e.target.elements.todoText.value = "";
-  };
-
   return (
     <main className="bg-[#FAFAFA] transition-all duration-200 dark:bg-[#171823] h-screen w-full">
       <Header dark={darkMode} />
       <Container
         dark={darkMode}
         themeToggler={themeToggler}
-        clearCompleted={clearCompletedHandler}
-        delete={deleteTaskHandler}
-        complete={completeToggleHandler}
-        create={createTodo}
         changeFilter={changeFilterHandler}
       />
     </main>

@@ -1,6 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
+import todosContext from "../contexts/todosContext";
 
 const Input = ({ create }) => {
+  const [, , createTodos] = useContext(todosContext);
   const [isFocused, setIsFocused] = useState(false);
 
   useEffect(() => {
@@ -29,7 +31,7 @@ const Input = ({ create }) => {
       >
         <div className="w-6 h-6 rounded-full border-[1px] border-[#E3E4F1] dark:border-[#393A4B] dark:placeholder-[#767992]"></div>
         <form
-          onSubmit={(e) => create(e, e.target.elements.todoText.value)}
+          onSubmit={(e) => createTodos(e, e.target.elements.todoText.value)}
           className="w-full"
         >
           <input

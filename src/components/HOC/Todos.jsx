@@ -3,13 +3,15 @@ import doneIcon from "../../assets/icons/done.svg";
 import { motion } from "framer-motion";
 import todosContext from "../../contexts/todosContext";
 
-const Todos = ({
-  complete,
-  delete: deleteTask,
-  clearCompleted,
-  changeFilter,
-}) => {
-  const [todos, setTodos] = useContext(todosContext);
+const Todos = ({ clearCompleted, changeFilter }) => {
+  const [
+    todos,
+    ,
+    ,
+    deleteTaskHandler,
+    completeToggleHandler,
+    clearCompletedHandler,
+  ] = useContext(todosContext);
   const [itemsLeft, setItemsLeft] = useState(0);
   const [JSONtodos, setJSONtodos] = useState(() => {
     return JSON.parse(localStorage.getItem("todos")) !== null
@@ -57,7 +59,7 @@ const Todos = ({
               <div className="flex items-center flex-row gap-3">
                 <div
                   onClick={() => {
-                    complete(todo.id);
+                    completeToggleHandler(todo.id);
                   }}
                   className={`w-6 cursor-pointer h-6 relative rounded-full p-[1px] flex justify-center items-center transition-all bg-[#E3E4F1] dark:bg-[#393A4B] group-hover:bg-gradient-to-br from-[#55DDFF] to-[#C058F3] ${
                     todo.completed ? "bg-gradient-to-br" : ""
@@ -76,7 +78,7 @@ const Todos = ({
                 </div>
                 <span
                   onClick={() => {
-                    complete(todo.id);
+                    completeToggleHandler(todo.id);
                   }}
                   className={`${
                     todo.completed ? "line-through text-[#D1D2DA]" : ""
@@ -88,7 +90,7 @@ const Todos = ({
               <div>
                 <button
                   onClick={() => {
-                    deleteTask(todo.id);
+                    deleteTaskHandler(todo.id);
                   }}
                   className="h-full 2xl:opacity-0 transition-all active:scale-90 group-hover:opacity-100"
                 >
@@ -136,7 +138,7 @@ const Todos = ({
             </div>
             <div>
               <button
-                onClick={clearCompleted}
+                onClick={clearCompletedHandler}
                 className="hover:text-black transition-all"
               >
                 Clear Completed
