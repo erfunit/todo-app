@@ -21,7 +21,6 @@ const Container = ({
           complete={complete}
           delete={deleteTask}
           clearCompleted={clearCompleted}
-          todos={todos}
           changeFilter={changeFilter}
         />
       </div>

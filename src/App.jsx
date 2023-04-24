@@ -1,17 +1,20 @@
 import Header from "./components/Header";
 import Container from "./components/HOC/Container";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import todosContext from "./contexts/todosContext";
 
 const App = () => {
   const [filter, setFilter] = useState("All");
-  const [todos, setTodos] = useState(() => {
-    const storedTodos = localStorage.getItem("todos");
-    return storedTodos !== null ? JSON.parse(storedTodos) : [];
-  });
+  const [todos, setTodos] = useContext(todosContext);
 
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
+    setTodos(() => {
+      const storedTodos = localStorage.getItem("todos");
+      return storedTodos !== null ? JSON.parse(storedTodos) : [];
+    });
+
     if (darkMode) {
       document.documentElement.classList.add("dark");
     } else {
@@ -74,6 +77,10 @@ const App = () => {
   };
 
   const createTodo = (e, text) => {
+    if (text === "") {
+      alert("please enter something");
+      return;
+    }
     e.preventDefault();
     const newTodo = {
       text,
@@ -96,7 +103,6 @@ const App = () => {
         themeToggler={themeToggler}
         clearCompleted={clearCompletedHandler}
         delete={deleteTaskHandler}
-        todos={todos}
         complete={completeToggleHandler}
         create={createTodo}
         changeFilter={changeFilterHandler}

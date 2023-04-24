@@ -1,14 +1,15 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useContext } from "react";
 import doneIcon from "../../assets/icons/done.svg";
 import { motion } from "framer-motion";
+import todosContext from "../../contexts/todosContext";
 
 const Todos = ({
-  todos,
   complete,
   delete: deleteTask,
   clearCompleted,
   changeFilter,
 }) => {
+  const [todos, setTodos] = useContext(todosContext);
   const [itemsLeft, setItemsLeft] = useState(0);
   const [JSONtodos, setJSONtodos] = useState(() => {
     return JSON.parse(localStorage.getItem("todos")) !== null
