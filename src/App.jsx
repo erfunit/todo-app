@@ -2,6 +2,8 @@ import Header from "./components/Header";
 import Container from "./components/HOC/Container";
 import { useState, useEffect, useContext } from "react";
 import todosContext from "./contexts/todosContext";
+import SplashScreen from "./SplashScreen";
+import { AnimatePresence } from "framer-motion";
 
 const App = () => {
   const [filter, setFilter] = useState("All");
@@ -48,15 +50,30 @@ const App = () => {
     setFilter(x);
   };
 
+  //loading
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => setLoading(false), 3000); // remove splash screen after 3 seconds
+  }, []);
+
   return (
-    <main className="bg-[#FAFAFA] transition-all duration-200 dark:bg-[#171823] h-screen w-full">
-      <Header dark={darkMode} />
-      <Container
-        dark={darkMode}
-        themeToggler={themeToggler}
-        changeFilter={changeFilterHandler}
-      />
-    </main>
+    <AnimatePresence>
+      <main className="bg-[#FAFAFA] transition-all duration-200 dark:bg-[#171823] h-screen w-full">
+        {loading ? (
+          <SplashScreen />
+        ) : (
+          <>
+            <Header dark={darkMode} />
+            <Container
+              dark={darkMode}
+              themeToggler={themeToggler}
+              changeFilter={changeFilterHandler}
+            />
+          </>
+        )}
+      </main>
+    </AnimatePresence>
   );
 };
 

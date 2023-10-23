@@ -1,0 +1,13 @@
+{
+    "name": "Todo App",
+    "short_name": "Todo",
+    "start_url": "/ProjectsPreview/todo/todo.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "description": "A simple todo app",
+    "icons": [{
+      "src": "./icons.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    }]
+}
