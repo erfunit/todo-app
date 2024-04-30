@@ -7,6 +7,7 @@ export const TodosProvider = ({ children }) => {
 
   const createTodo = useCallback((e, text) => {
     e.preventDefault();
+    console.log("hello world");
     if (text === "") {
       alert("please enter something");
       return;
@@ -57,14 +58,14 @@ export const TodosProvider = ({ children }) => {
   }, []);
 
   const contextValue = useCallback(
-    {
+    [
       todos,
       setTodos,
       createTodo,
       deleteTaskHandler,
       completeToggleHandler,
       clearCompletedHandler,
-    },
+    ],
     [
       todos,
       setTodos,

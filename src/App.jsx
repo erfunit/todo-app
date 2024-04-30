@@ -4,12 +4,13 @@ import { useState, useEffect, useContext } from "react";
 import todosContext from "./contexts/todosContext";
 import SplashScreen from "./SplashScreen";
 import { AnimatePresence } from "framer-motion";
+import { useLocalStorage } from "use-termite";
 
 const App = () => {
   const [filter, setFilter] = useState("All");
-  const { setTodos } = useContext(todosContext);
+  const [_, setTodos] = useContext(todosContext);
 
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useLocalStorage(false);
 
   useEffect(() => {
     setTodos(() => {

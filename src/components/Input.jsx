@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, useContext } from "react";
 import todosContext from "../contexts/todosContext";
 
 const Input = () => {
-  const { createTodos } = useContext(todosContext);
+  const [, , createTodos] = useContext(todosContext);
   const [_, setIsFocused] = useState(false);
 
   useEffect(() => {

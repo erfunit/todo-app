@@ -4,12 +4,14 @@ import { motion } from "framer-motion";
 import todosContext from "../../contexts/todosContext";
 
 const Todos = ({ clearCompleted, changeFilter }) => {
-  const {
+  const [
     todos,
+    ,
+    ,
     deleteTaskHandler,
     completeToggleHandler,
     clearCompletedHandler,
-  } = useContext(todosContext);
+  ] = useContext(todosContext);
   const [itemsLeft, setItemsLeft] = useState(0);
   const [JSONtodos, setJSONtodos] = useState(() => {
     return JSON.parse(localStorage.getItem("todos")) !== null
