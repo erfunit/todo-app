@@ -57,14 +57,14 @@ export const TodosProvider = ({ children }) => {
   }, []);
 
   const contextValue = useCallback(
-    [
+    {
       todos,
       setTodos,
       createTodo,
       deleteTaskHandler,
       completeToggleHandler,
       clearCompletedHandler,
-    ],
+    },
     [
       todos,
       setTodos,

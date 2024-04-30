@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState, useContext } from "react";
 import todosContext from "../contexts/todosContext";
 
-const Input = ({ create }) => {
-  const [, , createTodos] = useContext(todosContext);
+const Input = () => {
+  const { createTodos } = useContext(todosContext);
   const [isFocused, setIsFocused] = useState(false);
 
   useEffect(() => {

@@ -1,5 +1,5 @@
 import Header from "./components/Header";
-import Container from "./components/HOC/Container";
+import Container from "./components/container/Container";
 import { useState, useEffect, useContext } from "react";
 import todosContext from "./contexts/todosContext";
 import SplashScreen from "./SplashScreen";
@@ -7,7 +7,7 @@ import { AnimatePresence } from "framer-motion";
 
 const App = () => {
   const [filter, setFilter] = useState("All");
-  const [todos, setTodos] = useContext(todosContext);
+  const { setTodos } = useContext(todosContext);
 
   const [darkMode, setDarkMode] = useState(false);
 
