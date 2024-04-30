@@ -3,7 +3,7 @@ import todosContext from "../contexts/todosContext";
 
 const Input = () => {
   const { createTodos } = useContext(todosContext);
-  const [isFocused, setIsFocused] = useState(false);
+  const [_, setIsFocused] = useState(false);
 
   useEffect(() => {
     return () => {
