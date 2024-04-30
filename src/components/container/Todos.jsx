@@ -1,49 +1,48 @@
 import { useEffect, useState, useCallback, useContext } from "react";
 import doneIcon from "../../assets/icons/done.svg";
 import { motion } from "framer-motion";
-import todosContext from "../../contexts/todosContext";
+import {
+  filteredTodoListState,
+  todoListCountState,
+} from "../../recoil/selectors/todos.selectors";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  todoListFilterState,
+  todoListState,
+} from "../../recoil/atoms/todos.atoms";
 
-const Todos = ({ clearCompleted, changeFilter }) => {
-  const [
-    todos,
-    ,
-    ,
-    deleteTaskHandler,
-    completeToggleHandler,
-    clearCompletedHandler,
-  ] = useContext(todosContext);
-  const [itemsLeft, setItemsLeft] = useState(0);
-  const [JSONtodos, setJSONtodos] = useState(() => {
-    return JSON.parse(localStorage.getItem("todos")) !== null
-      ? JSON.parse(localStorage.getItem("todos"))
-      : [];
-  });
-  useEffect(() => {
-    setJSONtodos(() => {
-      return JSON.parse(localStorage.getItem("todos")) !== null
-        ? JSON.parse(localStorage.getItem("todos"))
-        : [];
-    });
-    let sum = 0;
-    todos.forEach((todo) => {
-      if (!todo.completed) {
-        sum++;
-      }
-      setItemsLeft(sum);
-    });
-  }, [todos]);
+const Todos = () => {
+  const filteredTodoList = useRecoilValue(filteredTodoListState);
+  const [todos, setTodos] = useRecoilState(todoListState);
+  const todosCount = useRecoilValue(todoListCountState);
+  const [filter, setFilter] = useRecoilState(todoListFilterState);
 
-  const handleFilterChange = useCallback(
-    (filter) => {
-      changeFilter(filter);
-    },
-    [changeFilter]
-  );
+  const clearCompletedHandler = () => {
+    const newTodos = todos.filter((item) => item.completed === false);
+    setTodos(newTodos);
+  };
+
+  const deleteTaskHandler = (id) => {
+    const newTodos = todos.filter((item) => item.id !== id);
+    setTodos(newTodos);
+  };
+
+  const completeToggleHandler = (id) => {
+    const newTodos = todos.map((todo) =>
+      todo.id === id
+        ? {
+            ...todo,
+            completed: !todo.completed,
+          }
+        : { ...todo }
+    );
+    setTodos(newTodos);
+  };
 
   return (
     <>
       <div className="w-full shadow-2xl scrollbar-thin shadow-black/25 overflow-auto transition-all bg-gray-200 dark:bg-[#393A4B] rounded-[5px]">
-        {todos.map((todo, index) => {
+        {filteredTodoList.map((todo, index) => {
           return (
             <motion.div
               layout
@@ -113,25 +112,37 @@ const Todos = ({ clearCompleted, changeFilter }) => {
             </motion.div>
           );
         })}
-        {JSONtodos.length > 0 ? (
+        {todos.length > 0 ? (
           <div className="bg-white dark:bg-[#25273D] sticky bottom-0 shadow-[0_0_20px_#00000015] transition-all  flex flex-row justify-between p-5 text-sm font-semibold  text-[#9495A5]">
-            <div>{itemsLeft} items left</div>
+            <div>{todosCount} items left</div>
             <div className="sm:flex hidden gap-4">
               <button
-                onClick={() => handleFilterChange("All")}
-                className="active:text-black  transition-all"
+                onClick={() => setFilter("All")}
+                className={`transition-all ${
+                  filter === "All"
+                    ? "text-purple-500 dark:text-purple-500"
+                    : "active:text-black dark:active:text-white"
+                }`}
               >
                 All
               </button>
               <button
-                onClick={() => handleFilterChange("Active")}
-                className="active:text-black transition-all"
+                onClick={() => setFilter("Active")}
+                className={`transition-all ${
+                  filter === "Active"
+                    ? "text-purple-500 dark:text-purple-500"
+                    : "active:text-black dark:active:text-white"
+                }`}
               >
                 Active
               </button>
               <button
-                onClick={() => handleFilterChange("Completed")}
-                className="active:text-black transition-all"
+                onClick={() => setFilter("Completed")}
+                className={`transition-all ${
+                  filter === "Completed"
+                    ? "text-purple-500 dark:text-purple-500"
+                    : "active:text-black dark:active:text-white"
+                }`}
               >
                 Completed
               </button>
@@ -147,7 +158,7 @@ const Todos = ({ clearCompleted, changeFilter }) => {
           </div>
         ) : null}
       </div>
-      {JSONtodos.length > 0 ? (
+      {todos.length > 0 ? (
         <div className="bg-white sm:hidden transition-all dark:bg-[#25273D] rounded-[5px] my-4 flex flex-row justify-center p-4 text-base font-semibold  text-[#9495A5]">
           <div className="flex gap-4">
             <button

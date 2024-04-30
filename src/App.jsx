@@ -1,66 +1,36 @@
 import Header from "./components/Header";
 import Container from "./components/container/Container";
 import { useState, useEffect, useContext } from "react";
-import todosContext from "./contexts/todosContext";
-import SplashScreen from "./SplashScreen";
 import { AnimatePresence } from "framer-motion";
 import { useLocalStorage } from "use-termite";
+import { RecoilRoot, useSetRecoilState } from "recoil";
+import { todoListFilterState } from "./recoil/atoms/todos.atoms";
 
 const App = () => {
-  const [filter, setFilter] = useState("All");
-  const [_, setTodos] = useContext(todosContext);
+  const setFilter = useSetRecoilState(todoListFilterState);
 
   const [darkMode, setDarkMode] = useLocalStorage(false);
   useEffect(() => {
-    setTodos(() => {
-      const storedTodos = localStorage.getItem("todos");
-      return storedTodos !== null ? JSON.parse(storedTodos) : [];
-    });
-
     if (darkMode) {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
     }
-    if (filter === "Active") {
-      let storedTodos = localStorage.getItem("todos");
-      storedTodos = storedTodos !== null ? JSON.parse(storedTodos) : [];
-      let filteredTodos = storedTodos.filter(
-        (todo) => todo.completed === false
-      );
-      setTodos(filteredTodos);
-    } else if (filter === "Completed") {
-      let storedTodos = localStorage.getItem("todos");
-      storedTodos = storedTodos !== null ? JSON.parse(storedTodos) : [];
-      let filteredTodos = storedTodos.filter((todo) => todo.completed === true);
-      setTodos(filteredTodos);
-    } else if (filter === "All") {
-      setTodos(() => {
-        const storedTodos = localStorage.getItem("todos");
-        return storedTodos !== null ? JSON.parse(storedTodos) : [];
-      });
-    }
-  }, [darkMode, filter]);
+  }, [darkMode]);
 
   const themeToggler = () => {
     setDarkMode((prev) => !prev);
   };
 
-  const changeFilterHandler = (x) => {
-    setFilter(x);
-  };
-
   return (
-    <AnimatePresence>
-      <main className="bg-[#FAFAFA] transition-all duration-200 dark:bg-[#171823] h-screen w-full">
-        <Header dark={darkMode} />
-        <Container
-          dark={darkMode}
-          themeToggler={themeToggler}
-          changeFilter={changeFilterHandler}
-        />
-      </main>
-    </AnimatePresence>
+    <RecoilRoot>
+      <AnimatePresence>
+        <main className="bg-[#FAFAFA] transition-all duration-200 dark:bg-[#171823] h-screen w-full">
+          <Header dark={darkMode} />
+          <Container dark={darkMode} themeToggler={themeToggler} />
+        </main>
+      </AnimatePresence>
+    </RecoilRoot>
   );
 };
 
