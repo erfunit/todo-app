@@ -11,7 +11,6 @@ const App = () => {
   const [_, setTodos] = useContext(todosContext);
 
   const [darkMode, setDarkMode] = useLocalStorage(false);
-
   useEffect(() => {
     setTodos(() => {
       const storedTodos = localStorage.getItem("todos");

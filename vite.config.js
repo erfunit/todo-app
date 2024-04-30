@@ -4,7 +4,7 @@ import { VitePWA } from "vite-plugin-pwa";
 
 const pwaConfigs = {
   workbox: {
-    globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
+    globPatterns: ["**/*.{js,css,html,ico,png,svg,jpg}"],
   },
   manifest: {
     name: "todo app",
