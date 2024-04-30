@@ -17,7 +17,7 @@ export const TodosProvider = ({ children }) => {
       id: Math.floor(Math.random() * Date.now()),
     };
     setTodos((prevTodos) => {
-      const updatedTodos = [...prevTodos, newTodo];
+      const updatedTodos = [newTodo, ...prevTodos];
       localStorage.setItem("todos", JSON.stringify(updatedTodos));
       return updatedTodos;
     });

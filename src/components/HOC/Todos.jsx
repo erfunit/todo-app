@@ -42,7 +42,7 @@ const Todos = ({ clearCompleted, changeFilter }) => {
 
   return (
     <>
-      <div className="w-full shadow-2xl shadow-black/25 overflow-hidden transition-all bg-gray-200 dark:bg-[#393A4B] rounded-[5px]">
+      <div className="w-full shadow-2xl scrollbar-thin shadow-black/25 overflow-auto transition-all bg-gray-200 dark:bg-[#393A4B] rounded-[5px]">
         {todos.map((todo, index) => {
           return (
             <motion.div
@@ -114,7 +114,7 @@ const Todos = ({ clearCompleted, changeFilter }) => {
           );
         })}
         {JSONtodos.length > 0 ? (
-          <div className="bg-white dark:bg-[#25273D] transition-all  flex flex-row justify-between p-5 text-sm font-semibold  text-[#9495A5]">
+          <div className="bg-white dark:bg-[#25273D] sticky bottom-0 shadow-[0_0_20px_#00000015] transition-all  flex flex-row justify-between p-5 text-sm font-semibold  text-[#9495A5]">
             <div>{itemsLeft} items left</div>
             <div className="sm:flex hidden gap-4">
               <button
@@ -139,7 +139,7 @@ const Todos = ({ clearCompleted, changeFilter }) => {
             <div>
               <button
                 onClick={clearCompletedHandler}
-                className="hover:text-black transition-all"
+                className="hover:hover:text-hover dark:hover:text-white transition-all"
               >
                 Clear Completed
               </button>
