@@ -50,28 +50,15 @@ const App = () => {
     setFilter(x);
   };
 
-  //loading
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => setLoading(false), 3000); // remove splash screen after 3 seconds
-  }, []);
-
   return (
     <AnimatePresence>
       <main className="bg-[#FAFAFA] transition-all duration-200 dark:bg-[#171823] h-screen w-full">
-        {loading ? (
-          <SplashScreen />
-        ) : (
-          <>
-            <Header dark={darkMode} />
-            <Container
-              dark={darkMode}
-              themeToggler={themeToggler}
-              changeFilter={changeFilterHandler}
-            />
-          </>
-        )}
+        <Header dark={darkMode} />
+        <Container
+          dark={darkMode}
+          themeToggler={themeToggler}
+          changeFilter={changeFilterHandler}
+        />
       </main>
     </AnimatePresence>
   );

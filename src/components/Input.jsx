@@ -26,10 +26,10 @@ const Input = ({ create }) => {
   return (
     <>
       <div
-        className={`w-full mb-4 flex flex-row transition-all items-center p-4 rounded-[5px] gap-3 bg-white dark:bg-[#25273D] `}
+        className={`w-full mb-4 flex flex-row transition-all items-center p-5 rounded-[5px] gap-3 bg-white dark:bg-[#25273D] `}
         onClick={() => focusTodo()}
       >
-        <div className="w-6 h-6 rounded-full border-[1px] border-[#E3E4F1] dark:border-[#393A4B] dark:placeholder-[#767992]"></div>
+        <div className="w-6 aspect-square rounded-full border-[1px] border-[#E3E4F1] dark:border-[#393A4B] dark:placeholder-[#767992]"></div>
         <form
           onSubmit={(e) => createTodos(e, e.target.elements.todoText.value)}
           className="w-full"
